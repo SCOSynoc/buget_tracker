@@ -30,6 +30,7 @@ class HistoryContainer extends ConsumerWidget {
                    decoration:  BoxDecoration(
                        color: Colors.black87,
                        border: Border(
+                         right: BorderSide(color: Colors.red, width: 0.5),
                        top: BorderSide(color: Colors.red, width: 2),
                        bottom: BorderSide(color: Colors.red, width: 2),
                        left: BorderSide(color: Colors.red, width: 2), ),
@@ -48,7 +49,7 @@ class HistoryContainer extends ConsumerWidget {
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Text("${expenseList[eIndex]["category"]}",style: GoogleFonts.acme(fontSize: 15, color: Colors.red),),
-                             Text("${expenseList[eIndex]["expense"]}  ${expenseList[eIndex]["date"]} ",style: GoogleFonts.acme(fontSize: 15, color: Colors.red),),
+                             Text("₹ ${expenseList[eIndex]["expense"]}  ${expenseList[eIndex]["date"]} ",style: GoogleFonts.acme(fontSize: 15, color: Colors.red),),
                            ],
                          ),
                        ),
@@ -94,7 +95,7 @@ class HistoryContainer extends ConsumerWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text("${data[index]["category"]}", style: GoogleFonts.acme(color: Colors.green),),
-                                      Text("${data[index]["income"]} - ${data[index]["date"]}", style: GoogleFonts.acme(color: Colors.green))
+                                      Text("₹ ${data[index]["income"]} - ${data[index]["date"]}", style: GoogleFonts.acme(color: Colors.green))
                                     ],),
                                  ),
                               );

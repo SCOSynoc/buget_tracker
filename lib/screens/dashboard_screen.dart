@@ -7,12 +7,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key, this.from});
+  final String? from;
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int _currentIndex = 0;
+  int _currentIndex = 0 ;
   final List<Widget> _screens = [
     AllSpendingScreen(),
     HomeScreen(),
@@ -20,6 +22,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     AddIncomeExpenses(),
     ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _currentIndex = widget.from == "SignUp"? 2 : 0;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -22,7 +22,7 @@ class IncomeRepository {
 
 
   void addIncomesToFirebase({required String category, required double amount, required String date}) async{
-
+    loaderNotifier.value = true;
     try{
       String uid = auth.currentUser!.uid;
       String uuid_income = const Uuid().v1();

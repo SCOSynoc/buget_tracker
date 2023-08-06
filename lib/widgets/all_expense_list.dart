@@ -48,7 +48,7 @@ class AllExpenseList extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("${expenseList[eIndex]["category"]}",style: GoogleFonts.acme(fontSize: 15, color: Colors.red),),
-                        Text("${expenseList[eIndex]["expense"]}  ${expenseList[eIndex]["date"]} ",style: GoogleFonts.acme(fontSize: 15, color: Colors.red),),
+                        Text("₹ ${expenseList[eIndex]["expense"]} - ${expenseList[eIndex]["date"]} ",style: GoogleFonts.acme(fontSize: 15, color: Colors.red),),
                       ],
                     ),
                   ),

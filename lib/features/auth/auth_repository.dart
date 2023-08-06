@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:budget_tracker/screens/dashboard_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,16 +26,14 @@ class AuthRepository {
   void signInWithEmailAndPassword({required String email ,required String name, required BuildContext context,required String password, required String mobile}) async {
     loaderNotifier.value = true;
     try {
-      await auth.createUserWithEmailAndPassword(email: email, password: password).whenComplete(() {
-        navigateAndRemovePush(context, DashboardScreen());
+      await auth.createUserWithEmailAndPassword(email: email, password: password).whenComplete(() async {
+       await auth.signInWithEmailAndPassword(email: email, password: password);
       }
       ).whenComplete(() {
         saveUserToFirebase(email: email, name: name, mobile: mobile, context: context,);
       });
-      showToast("SignedIn successfully");
 
-
-    } on FirebaseAuthException catch(e){
+    } catch(e){
       print("Errror $e");
       showToast("Something went wrong please report this bug");
     }
@@ -41,12 +41,19 @@ class AuthRepository {
 
 
   void saveUserToFirebase({required String email ,required String name, required String mobile, required BuildContext context}) async{
-   loaderNotifier.value = true;
     try{
        String uid = auth.currentUser!.uid;
-       await firestore.collection("budget_user").doc(uid).set({"name": name, "email": email, "mobile_num": mobile, "uid": uid});
-    }on FirebaseException catch(e){
+       await firestore.collection("budget_user").doc(uid).set({"name": name, "email": email, "mobile_num": mobile, "uid": uid}).then((value) {
+         showToast("SignedIn successfully");
+         navigateAndRemovePush(context, const DashboardScreen(from: "SignUp",));
+       }).onError((error, stackTrace) {
+            log("here data error is $error and $stackTrace");
+            loaderNotifier.value = false;
+       });
 
+    }catch(e){
+      loaderNotifier.value = false;
+      throw Exception(e);
     }
 
   }
@@ -58,7 +65,10 @@ class AuthRepository {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password).whenComplete(() =>
           navigateAndRemovePush(context, DashboardScreen())
-      );
+      ).catchError((error) {
+        loaderNotifier.value = false;
+        throw Exception(error);
+      });
       showToast("logged in successfully");
     } on FirebaseAuthException catch(e){
       /*showSnackBar(context: context, content: "${e.message}");*/
@@ -87,9 +97,13 @@ class AuthRepository {
 
 
   void updateUserBudget({required String monthly, required String annually}){
+    loaderNotifier.value = true;
     firestore.collection("budget_user").doc(auth.currentUser!.uid).update({
       "monthly_budget": monthly,
       "annual_budget": annually
+    }).whenComplete(() {
+      loaderNotifier.value = false;
+      showToast("Budget added successfully");
     });
   }
 }

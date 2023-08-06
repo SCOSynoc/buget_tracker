@@ -39,7 +39,7 @@ class AllIncomeList extends ConsumerWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(" +Income ", style: GoogleFonts.acme(fontSize: 23, color: Colors.green, fontWeight: FontWeight.w600),),
+                            child: Text(" + Income ", style: GoogleFonts.acme(fontSize: 23, color: Colors.green, fontWeight: FontWeight.w600),),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -47,7 +47,7 @@ class AllIncomeList extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("${incomeList[eIndex]["category"]}",style: GoogleFonts.acme(fontSize: 15, color: Colors.green),),
-                                Text("${incomeList[eIndex]["income"]}  ${incomeList[eIndex]["date"]} ",style: GoogleFonts.acme(fontSize: 15, color: Colors.green),),
+                                Text("₹ ${incomeList[eIndex]["income"]} - ${incomeList[eIndex]["date"]} ",style: GoogleFonts.acme(fontSize: 15, color: Colors.green),),
                               ],
                             ),
                           ),

@@ -19,7 +19,7 @@ void navigateAndRemovePush(BuildContext context, Widget screen,){
   Navigator.pushAndRemoveUntil(
     context,
     MaterialPageRoute(builder: (_) => screen),
-        (Route<dynamic> route) => route.isFirst
+        (Route<dynamic> route) => false
   );
 }
 

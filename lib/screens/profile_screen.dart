@@ -8,13 +8,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class ProfileScreen extends ConsumerWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen({super.key});
+
+  String name = "";
+  String mobileNum = "";
+  String email = "";
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String name = "";
-    String mobileNum = "";
-    String email = "";
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),backgroundColor: Colors.purple,
@@ -25,6 +28,7 @@ class ProfileScreen extends ConsumerWidget {
           future: ref.read(authControllerProvider).getCurrentUserAuthData(),
           builder: (context, snapshot) {
             final data = snapshot.data ?? {} ;
+            name = data["name"] ?? "";
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,22 +38,22 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Mobile Number: ${data["mobile_num"]}',
+                  'Mobile Number: ${data["mobile_num"] ?? ""}',
                   style: GoogleFonts.acme(fontSize: 16),
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Email: ${data["email"]}',
+                  'Email: ${data["email"] ?? ""}',
                   style: GoogleFonts.acme(fontSize: 16),
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Monthly Budget: ${data["monthly_budget"]}',
+                  'Monthly Budget: ${data["monthly_budget"] ?? " Not added yet"}',
                   style: GoogleFonts.acme(fontSize: 16),
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Annual Budget: ${data["annual_budget"]}',
+                  'Annual Budget: ${data["annual_budget"] ?? "Not added yet"}',
                   style: GoogleFonts.acme(fontSize: 16),
                 ),
                 SizedBox(height: 18),
@@ -139,7 +143,7 @@ class ProfileScreen extends ConsumerWidget {
     List<int> bytes = await document.save();
     document.dispose();
 
-    saveAndLaunchFile(bytes, 'Output.pdf');
+    saveAndLaunchFile(bytes, '${name}_Expense_Report.pdf');
   }
 
   Future<void> _createIncomePDF() async {
@@ -174,7 +178,7 @@ class ProfileScreen extends ConsumerWidget {
     List<int> bytes = await document.save();
     document.dispose();
 
-    saveAndLaunchFile(bytes, 'Income_Output.pdf');
+    saveAndLaunchFile(bytes, '${name}_Income_Report.pdf');
   }
 
 
